@@ -6,6 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -14,6 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
     private CameraManager cameraManager;
     private String cameraId;
+    private Spinner durationSpinner;
+
+    protected static int timeSecond = 5;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -22,6 +27,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         findViewById(R.id.torchtoggle).setOnClickListener(this::toggleFlashLight);
+
+        durationSpinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.timer_seconds, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        durationSpinner.setAdapter(adapter);
+        durationSpinner.setOnItemSelectedListener(new SpinnerActivity());
 
         cameraManager = (CameraManager) getSystemService(CAMERA_SERVICE);
         try {
@@ -38,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             changeTorchState(false);
             finishAndRemoveTask();
-        }, 3000);
+        }, timeSecond*1000);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

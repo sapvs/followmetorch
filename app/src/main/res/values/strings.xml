@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">FollowMe</string>
     <string name="on">on</string>
+    <string name="torch_time_sec">Torch Time (sec)</string>
 </resources>
